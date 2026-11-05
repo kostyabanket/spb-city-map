@@ -1,0 +1,87 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.293621,
+          59.954845
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0001",
+        "name": "Двор-восьмиугольник",
+        "category": "Дворы",
+        "description": "Восьмиугольный двор на Петроградской стороне. Доступ необходимо перепроверять.",
+        "look": "Найти характерную восьмигранную форму.",
+        "access": "UNKNOWN",
+        "photo_url": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.312543,
+          59.961021
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0002",
+        "name": "Двор-Бэтмен",
+        "category": "Дворы",
+        "description": "Двор, просвет которого связывают с силуэтом летучей мыши.",
+        "look": "Посмотреть вверх со свободно доступной точки.",
+        "access": "UNKNOWN",
+        "photo_url": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.312015,
+          59.960512
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0003",
+        "name": "Дом Трёх Бенуа",
+        "category": "Архитектура",
+        "description": "Исторический жилой ансамбль на Каменноостровском проспекте.",
+        "look": "Рассмотреть композицию фасадов.",
+        "access": "UNKNOWN",
+        "photo_url": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.32047,
+          59.95715
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0011",
+        "legacy_id": 11,
+        "name": "Дом Лидваля",
+        "category": "Архитектура",
+        "description": "Один из ранних ярких образцов северного модерна. Доходный дом Иды Амалии Лидваль построен по проекту Фёдора Лидваля в 1899–1904 годах.",
+        "look": "Рассмотрите декоративную отделку фасадов, ограду и гранитные столбы со стороны общедоступного тротуара.",
+        "access": "UNKNOWN",
+        "location_precision": "APPROXIMATE_NEEDS_VERIFICATION",
+        "photo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/LidvalHouse.jpg?width=960",
+        "photo_author": "Potekhin",
+        "photo_license": "CC BY-SA 3.0",
+        "photo_source_url": "https://commons.wikimedia.org/wiki/File:LidvalHouse.jpg",
+        "source_url": "https://walkspb.ru/istoriya-peterburga/zd/kamennoostr1"
+      }
+    }
+  ]
+}
