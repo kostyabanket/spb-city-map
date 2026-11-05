@@ -11,7 +11,7 @@ The sole editorial source is the tab `Единая база` in the linked canon
 4. Review the logged diff. Only after explicit approval run the generator with `--output data/places.geojson`, review and commit the output.
 5. Verify the live map and all four cards on mobile.
 
-Local use: `python tools/sheet_to_geojson.py --csv path/to/export.csv --check`.
+Local preview: `python tools/sheet_to_geojson.py --csv path/to/export.csv --check` (no write). To save an **unpublished preview**: `python tools/sheet_to_geojson.py --csv path/to/export.csv --output sheet-preview.geojson`. Only after reviewing the diff and explicitly approving release: `python tools/sheet_to_geojson.py --csv path/to/export.csv --output data/places.geojson --apply`. A semantically identical export never writes any file.
 
 ## Conservative publication policy
 - Only previously existing place IDs and rows marked `PUBLISHED_GITHUB`, `PUBLISHED`, or `APPROVED`. **Rows with `Статус редакции` other than `APPROVED` / `VERIFIED` are left byte-for-byte equivalent at the feature level** (except output serialization). This is intentional: all four pilot rows are currently `REVIEW`.
@@ -26,3 +26,6 @@ A separate PR can introduce one personal category filter with `localStorage`, ch
 
 ## Verified source observations (2026-11-05)
 All four canonical IDs match `data/places.geojson`. The Google Sheet displays geographic decimals with commas under Russian locale (e.g. `30,293621`); numeric parsing handles both dots and commas. All four editorial rows currently have `REVIEW` status, so the guarded preview must not replace their published text. A passing unit test does **not** mean Google service-account credentials are configured, a live Sheet pull succeeded, or mobile QA was completed.
+
+## Live connector read-only cross-check (2026-11-05)
+Read A1:AI5 from canonical Sheet through connected Google Drive and compared to `main:data/places.geojson`. Four IDs unique and matched; all names, geographic coordinates, and photo status flags matched. All four rows were `REVIEW` + `PUBLISHED_GITHUB`, therefore the approval gate intentionally produces a semantic no-op. This connector check is **not** proof that GitHub's service-account workflow has authenticated: setting up that credential remains outstanding.
