@@ -56,7 +56,13 @@ def export(csv_file, existing):
         if row["Статус публикации"].strip().upper() not in ALLOWED: continue
         if pid not in baseline: raise ValueError("Unreviewed new place: "+pid)
         f = json.loads(json.dumps(baseline[pid],ensure_ascii=False))
-        f["geometry"]["coordinates"] = parse_coords(row)
+        coords = parse_coords(row)
+        editorial_status = (row.get("Статус редакции") or "").strip().upper()
+        if editorial_status not in {"APPROVED", "VERIFIED"}:
+            # Existing public information remains as-is until the editorial row is approved.
+            updated.append(f)
+            continue
+        f["geometry"]["coordinates"] = coords
         props = f["properties"]
         for header,key in MAPPING.items():
             value = (row.get(header) or "").strip()
