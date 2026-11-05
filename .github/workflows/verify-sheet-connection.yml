@@ -1,0 +1,45 @@
+name: Verify SPB MAP Sheet connection
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout frozen Sprint 01 code (read-only)
+        uses: actions/checkout@v4
+        with:
+          ref: a87d6f629d13cb2343946fc01f315caf2aea1c81
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Google client
+        run: python -m pip install google-auth requests
+      - name: Read canonical Sheet with viewer service account
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: python tools/fetch_sheet.py --output /tmp/spb-map-sheet.csv
+      - name: Verify protected export against existing GeoJSON
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          from tools.sheet_to_geojson import export
+          baseline = json.loads(Path("data/places.geojson").read_text(encoding="utf-8"))
+          with open("/tmp/spb-map-sheet.csv", encoding="utf-8-sig", newline="") as fh:
+              result = export(fh, baseline)
+          if result != baseline:
+              raise SystemExit("The Sheet would change the published GeoJSON: manual review is required.")
+          print(f"PASS: {len(result['features'])} places verified; published GeoJSON unchanged.")
+          PY
+      - name: Remove transient data
+        if: always()
+        run: rm -f /tmp/spb-map-sheet.csv
