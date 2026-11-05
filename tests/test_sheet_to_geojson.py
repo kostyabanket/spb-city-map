@@ -31,7 +31,7 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"Coordinates"):
             export(sample(row),BASE)
     def test_unverified_photo_rejected(self):
-        row=GOOD.copy();row[-1]="https://example.org/photo.jpg"
+        row=GOOD.copy();row[HEADERS.index("Основное фото — URL")]="https://example.org/photo.jpg"
         with self.assertRaisesRegex(ValueError,"photo lacks verified"):
             export(sample(row),BASE)
     def test_unapproved_row_cannot_remove_existing_place(self):
