@@ -1,0 +1,25 @@
+# Sprint 01 — canonical Sheet → reviewed GeoJSON
+
+Status: implementation in isolated branch; **not published**.
+
+The sole editorial source is the tab `Единая база` in the linked canonical Google Sheet. Place key is `place_id`, not column number or row number. Existing GeoJSON is a publication baseline, not an editor.
+
+## Workflow
+1. Create a Google Cloud service account with **read-only** Sheets scope. Share the canonical sheet only with that account (Viewer). Do not make the Sheet public.
+2. In GitHub repo Actions secrets add `GOOGLE_SERVICE_ACCOUNT_JSON` containing the service-account JSON. Never commit it.
+3. Manually start workflow `Sheet to GeoJSON preview`. It fetches the Sheet and validates a generated preview; **it never publishes**.
+4. Review the logged diff. Only after explicit approval run the generator with `--output data/places.geojson`, review and commit the output.
+5. Verify the live map and all four cards on mobile.
+
+Local use: `python tools/sheet_to_geojson.py --csv path/to/export.csv --check`.
+
+## Conservative publication policy
+- Only previously existing place IDs and rows marked `PUBLISHED_GITHUB`, `PUBLISHED`, or `APPROVED`.
+- Preserve GeoJSON fields not mapped from the Sheet, notably editorial details, evidence arrays, existing historical-photo attribution and external links. A blank Sheet field never deletes a published value.
+- Reject duplicate IDs, unexpected disappearance/addition, invalid or out-of-region coordinates, invalid photo links and insufficient photo attribution/license.
+- Do not emit the 305 speculative fields, research notes, personal fields or Sheet contents. Row publication status is NOT verification of individual facts. Historic factual verification remains editorial work.
+- Deliberately do not rewrite multi-value links/sources until a lossless structured contract is agreed.
+- No automatic publishing; maintain previous Git commit as recovery.
+
+## Follow-up
+A separate PR can introduce one personal category filter with `localStorage`, checked in a browser and on a phone; no accounts or backend required.
