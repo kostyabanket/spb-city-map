@@ -7,14 +7,14 @@ The sole editorial source is the tab `Единая база` in the linked canon
 ## Workflow
 1. Create a Google Cloud service account with **read-only** Sheets scope. Share the canonical sheet only with that account (Viewer). Do not make the Sheet public.
 2. In GitHub repo Actions secrets add `GOOGLE_SERVICE_ACCOUNT_JSON` containing the service-account JSON. Never commit it.
-3. Manually start workflow `Sheet to GeoJSON preview`. It fetches the Sheet and validates a generated preview; **it never publishes**.
+3. After the workflow file is available on the default branch, manually start workflow `Sheet to GeoJSON preview`. It fetches the Sheet and validates a generated preview; **it never publishes**.
 4. Review the logged diff. Only after explicit approval run the generator with `--output data/places.geojson`, review and commit the output.
 5. Verify the live map and all four cards on mobile.
 
 Local use: `python tools/sheet_to_geojson.py --csv path/to/export.csv --check`.
 
 ## Conservative publication policy
-- Only previously existing place IDs and rows marked `PUBLISHED_GITHUB`, `PUBLISHED`, or `APPROVED`.
+- Only previously existing place IDs and rows marked `PUBLISHED_GITHUB`, `PUBLISHED`, or `APPROVED`. **Rows with `Статус редакции` other than `APPROVED` / `VERIFIED` are left byte-for-byte equivalent at the feature level** (except output serialization). This is intentional: all four pilot rows are currently `REVIEW`.
 - Preserve GeoJSON fields not mapped from the Sheet, notably editorial details, evidence arrays, existing historical-photo attribution and external links. A blank Sheet field never deletes a published value.
 - Reject duplicate IDs, unexpected disappearance/addition, invalid or out-of-region coordinates, invalid photo links and insufficient photo attribution/license.
 - Do not emit the 305 speculative fields, research notes, personal fields or Sheet contents. Row publication status is NOT verification of individual facts. Historic factual verification remains editorial work.
@@ -23,3 +23,6 @@ Local use: `python tools/sheet_to_geojson.py --csv path/to/export.csv --check`.
 
 ## Follow-up
 A separate PR can introduce one personal category filter with `localStorage`, checked in a browser and on a phone; no accounts or backend required.
+
+## Verified source observations (2026-11-05)
+All four canonical IDs match `data/places.geojson`. The Google Sheet displays geographic decimals with commas under Russian locale (e.g. `30,293621`); numeric parsing handles both dots and commas. All four editorial rows currently have `REVIEW` status, so the guarded preview must not replace their published text. A passing unit test does **not** mean Google service-account credentials are configured, a live Sheet pull succeeded, or mobile QA was completed.
