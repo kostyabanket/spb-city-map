@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.293621,
+          59.954845
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0001",
+        "name": "Двор-восьмиугольник",
+        "category": "Дворы",
+        "description": "Восьмиугольный двор на Петроградской стороне. Доступ необходимо перепроверять.",
+        "look": "Найти характерную восьмигранную форму.",
+        "access": "UNKNOWN",
+        "photo_url": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.312543,
+          59.961021
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0002",
+        "name": "Двор-Бэтмен",
+        "category": "Дворы",
+        "description": "Двор, просвет которого связывают с силуэтом летучей мыши.",
+        "look": "Посмотреть вверх со свободно доступной точки.",
+        "access": "UNKNOWN",
+        "photo_url": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.312015,
+          59.960512
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0003",
+        "name": "Дом Трёх Бенуа",
+        "category": "Архитектура",
+        "description": "Исторический жилой ансамбль на Каменноостровском проспекте.",
+        "look": "Рассмотреть композицию фасадов.",
+        "access": "UNKNOWN",
+        "photo_url": ""
+      }
+    }
+  ]
+}
