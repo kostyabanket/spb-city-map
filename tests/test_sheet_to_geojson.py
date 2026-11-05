@@ -23,6 +23,25 @@ class PipelineTests(unittest.TestCase):
         result=export(sample(row),BASE)
         self.assertEqual(result["features"][0]["properties"]["name"],"Old")
         self.assertEqual(result["features"][0]["geometry"]["coordinates"],[30.3,59.9])
+    def test_review_rows_produce_semantically_identical_feature(self):
+        row=GOOD.copy()
+        row[HEADERS.index("Статус редакции")]="REVIEW"
+        actual=export(sample(row),BASE)
+        self.assertEqual(actual,BASE)
+
+    def test_comma_decimal_coordinates(self):
+        row=GOOD.copy()
+        row[HEADERS.index("Широта")]="59,95"
+        row[HEADERS.index("Долгота")]="30,32"
+        values=io.StringIO()
+        import csv
+        writer=csv.writer(values)
+        writer.writerow(HEADERS)
+        writer.writerow(row)
+        values.seek(0)
+        actual=export(values,BASE)
+        self.assertEqual(actual["features"][0]["geometry"]["coordinates"],[30.32,59.95])
+
     def test_duplicate_rejected(self):
         with self.assertRaisesRegex(ValueError,"Duplicate"):
             export(sample(GOOD,GOOD),BASE)
