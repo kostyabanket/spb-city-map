@@ -2,13 +2,13 @@ import io
 import unittest
 from tools.sheet_to_geojson import export
 
-HEADERS=["place_id","Название","Категория","Широта","Долгота","Статус публикации","Почему интересно","Фото — статус лицензии","Основное фото — URL"]
+HEADERS=["place_id","Название","Категория","Широта","Долгота","Статус публикации","Почему интересно","Фото — статус лицензии","Основное фото — URL","Статус редакции"]
 BASE={"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[30.3,59.9]},"properties":{"id":"SPB-PET-0001","name":"Old","details":[{"text":"Preserved"}],"external_links":[{"url":"https://example.org"}]}}]}
 def csvline(*cells):
     return ",".join(cells)+"\n"
 def sample(*rows):
     return io.StringIO(csvline(*HEADERS)+"".join(csvline(*row) for row in rows))
-GOOD=["SPB-PET-0001","Updated","Дворы","59.95","30.32","PUBLISHED_GITHUB","New","",""]
+GOOD=["SPB-PET-0001","Updated","Дворы","59.95","30.32","PUBLISHED_GITHUB","New","","","APPROVED"]
 
 class PipelineTests(unittest.TestCase):
     def test_preserves_unmapped_fields(self):
@@ -18,6 +18,11 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(f["properties"]["details"],BASE["features"][0]["properties"]["details"])
         self.assertEqual(f["geometry"]["coordinates"],[30.32,59.95])
         self.assertEqual(export(sample(GOOD),BASE),result)
+    def test_unapproved_editorial_text_never_overwrites_publication(self):
+        row=GOOD.copy();row[-1]="REVIEW"
+        result=export(sample(row),BASE)
+        self.assertEqual(result["features"][0]["properties"]["name"],"Old")
+        self.assertEqual(result["features"][0]["geometry"]["coordinates"],[30.3,59.9])
     def test_duplicate_rejected(self):
         with self.assertRaisesRegex(ValueError,"Duplicate"):
             export(sample(GOOD,GOOD),BASE)
