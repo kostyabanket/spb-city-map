@@ -95,16 +95,27 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("--csv",required=True, type=Path,help="CSV export from canonical single tab")
     p.add_argument("--existing",default="data/places.geojson",type=Path)
-    p.add_argument("--output",default="data/places.geojson",type=Path)
+    p.add_argument("--output",default="sheet-preview.geojson",type=Path)
     p.add_argument("--check",action="store_true",help="Compare with baseline without writing")
+    p.add_argument("--apply",action="store_true",help="Explicitly authorize replacing the current published GeoJSON")
     args=p.parse_args()
+    if args.check and args.apply:
+        p.error("--check and --apply cannot be combined")
+    if args.output.resolve() == args.existing.resolve() and not (args.check or args.apply):
+        p.error("Refusing to overwrite published GeoJSON without --apply")
+    if args.apply and args.output.resolve() != args.existing.resolve():
+        p.error("--apply must target --existing")
+    baseline_text=args.existing.read_text(encoding="utf-8")
     with args.csv.open(encoding="utf-8-sig",newline="") as stream:
-        output=export(stream,json.loads(args.existing.read_text(encoding="utf-8")))
+        baseline=json.loads(baseline_text)
+        output=export(stream,baseline)
+    if output == baseline:
+        print("Validated",len(output["features"]),"places; no semantic changes, no files written")
+        return
     content=json.dumps(output,ensure_ascii=False,indent=2)+"\n"
     if args.check:
         import difflib
-        old=args.existing.read_text(encoding="utf-8")
-        print("".join(difflib.unified_diff(old.splitlines(True),content.splitlines(True),fromfile=str(args.existing),tofile="sheet-preview.geojson"))[:30000])
+        print("".join(difflib.unified_diff(baseline_text.splitlines(True),content.splitlines(True),fromfile=str(args.existing),tofile=str(args.output)))[:30000])
         print("Validated",len(output["features"]),"places; no files written")
     else:
         args.output.write_text(content,encoding="utf-8")
