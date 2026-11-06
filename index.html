@@ -1,5 +1,37 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173b39"><title>Петербург через карту — Петроградка</title><link href="https://unpkg.com/maplibre-gl@5.7.1/dist/maplibre-gl.css" rel="stylesheet"><link href="./style.css" rel="stylesheet"></head>
-<body><header><small>ПЕТЕРБУРГ ЧЕРЕЗ КАРТУ · ПИЛОТ</small><h1>Открой Петроградку</h1><p>Места, истории и детали, которые стоит заметить.</p></header>
-<nav><input type="search" id="search" placeholder="Поиск по местам…" aria-label="Поиск"><div id="filters"></div></nav><section class="listing" aria-label="Список мест"><strong id="results-count">Мест: 0</strong><div id="results-list"></div></section><main><div id="map" aria-label="Карта Петроградской стороны"></div><article id="detail"><h2>Выберите точку</h2><p>Нажмите на метку, чтобы узнать, что искать на месте.</p></article></main><footer>Пилот. Данные о доступе не проверены. <a href="https://www.google.com/maps/d/viewer?mid=1DQNtyZOmCpPRKHrlmYGuX5fDanl_S6Y">Исходная Google My Maps</a></footer>
-<script src="https://unpkg.com/maplibre-gl@5.7.1/dist/maplibre-gl.js"></script><script src="./app.js"></script></body></html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#124f49">
+<meta name="description" content="SPB MAP — исторические места Петербурга на одной карте. Фотографии, истории и источники в карточках мест.">
+<title>SPB MAP — Петербург через карту</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Prata&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@5.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+<main id="main">
+ <div id="map" aria-label="Карта исторических мест Петербурга"></div>
+ <header class="brand" aria-label="SPB MAP">
+   <span class="brand-symbol" aria-hidden="true">⌖</span>
+   <span><strong>SPB MAP</strong><small>Петербург через карту</small></span>
+ </header>
+ <section class="search-panel" id="search-panel" aria-label="Поиск мест">
+   <button id="search-toggle" class="search-toggle" aria-expanded="false" aria-controls="search-drawer" type="button"><span aria-hidden="true">⌕</span> Найти место <span class="search-count" id="search-count">4</span> <span aria-hidden="true" class="chevron">⌄</span></button>
+   <div id="search-drawer" hidden>
+     <label class="sr-only" for="search">Поиск по названию, адресу и описанию</label>
+     <input id="search" type="search" placeholder="Название или адрес..." autocomplete="off">
+     <div id="filters" aria-label="Категории"></div>
+     <div id="results-list" aria-live="polite"></div>
+     <p class="search-note">Выберите место — откроется карточка на этой же карте.</p>
+   </div>
+ </section>
+ <article id="detail" class="detail" aria-label="Карточка объекта" hidden></article>
+ <div class="map-caption">Петроградская сторона · Пилот · <span id="places-count">4 места</span></div>
+</main>
+<script src="https://unpkg.com/maplibre-gl@5.7.1/dist/maplibre-gl.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
