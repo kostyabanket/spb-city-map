@@ -1,0 +1,354 @@
+{
+  "version": "1.0-research-2026-11-06",
+  "scope": {
+    "admin_district": "Петроградский район Санкт-Петербурга",
+    "allowed_existing_ids": [
+      "SPB-PET-0001",
+      "SPB-PET-0002",
+      "SPB-PET-0003",
+      "SPB-PET-0011"
+    ],
+    "new_public_place_ids": "DISABLED",
+    "district_boundary_geometry_status": "OFFICIAL_GEOMETRY_NOT_EXTRACTED_YET",
+    "auto_import_to_site": false
+  },
+  "source_count": 15,
+  "sources": [
+    {
+      "id": "SPB_MAP_CANONICAL",
+      "priority": "P0",
+      "name": "Исходная база SPB MAP",
+      "entry": "https://docs.google.com/spreadsheets/d/1cnVo0uyw6BxY0rPlkKHv0buSx8MTRatYZR1tHzloC88/edit",
+      "mode": "CONNECTED_READ_ONLY",
+      "access_status": "CONNECTED_READ_CONFIRMED",
+      "roles": [
+        "identity",
+        "intro",
+        "existing_legacy"
+      ],
+      "target_rubrics": [
+        "identity",
+        "intro",
+        "chronology",
+        "architecture",
+        "details",
+        "access",
+        "modern_media",
+        "sources"
+      ],
+      "automation": "ALLOWED_READONLY",
+      "rights": "INTERNAL_OWNED_DATA",
+      "join": "existing_place_id",
+      "notes": "Only verified 35 legacy headers; don't assume 305 extra columns populated."
+    },
+    {
+      "id": "GITHUB_MAP",
+      "priority": "P0",
+      "name": "SPB MAP public place data",
+      "entry": "https://github.com/kostyabanket/spb-city-map/blob/main/data/places.geojson",
+      "mode": "GITHUB_READ_ONLY",
+      "access_status": "CONNECTED_READ_CONFIRMED",
+      "roles": [
+        "existing_coordinates",
+        "published_description",
+        "place_links"
+      ],
+      "target_rubrics": [
+        "identity",
+        "intro",
+        "architecture",
+        "details",
+        "access",
+        "sources"
+      ],
+      "automation": "ALLOWED_READONLY",
+      "rights": "PROJECT_DATA",
+      "join": "properties.id",
+      "notes": "Published id is properties.id; not properties.place_id; 0002 Bolshoy P.S. 104."
+    },
+    {
+      "id": "KGIOP",
+      "priority": "P1",
+      "name": "КГИОП / реестр СПб",
+      "entry": "https://www.gov.spb.ru/gov/otrasl/c_govcontrol/perechen-okn/",
+      "mode": "OFFICIAL_MANUAL_DOCUMENT_LINKS",
+      "access_status": "OFFICIAL_CATALOGUE_CONFIRMED_SINGLE_RECORD_NOT_AUTOMATED",
+      "roles": [
+        "heritage_status",
+        "listed_entity",
+        "legal_docs"
+      ],
+      "target_rubrics": [
+        "architecture",
+        "chronology",
+        "sources"
+      ],
+      "automation": "MANUAL_OR_APPROVED_API_ONLY",
+      "rights": "TEXT_FACTS_WITH_CITATION_DOCUMENT_RIGHTS_SEPARATE",
+      "join": "legal_entity_scope_must_match",
+      "notes": "Monument/legal ensemble, house/courtyard and memorial plaque not equivalent; EGROKN IDs require direct official record."
+    },
+    {
+      "id": "SPB_RGIS",
+      "priority": "P1",
+      "name": "РГИС Санкт-Петербурга",
+      "entry": "https://rgis.spb.ru/",
+      "mode": "OFFICIAL_MAP_REVIEW",
+      "access_status": "OFFICIAL_PORTAL_CONFIRMED_LAYER_API_NOT_VALIDATED",
+      "roles": [
+        "administrative_district",
+        "heritage_boundaries",
+        "building_parcel"
+      ],
+      "target_rubrics": [
+        "identity",
+        "architecture",
+        "access"
+      ],
+      "automation": "MANUAL_UNTIL_LICENSED_EXPORT_CONFIRMED",
+      "rights": "REUSE_AND_EXPORT_TERMS_REVIEW",
+      "join": "spatial_inside_admin_district",
+      "notes": "District criterion requires authoritative district geometry, never approximate lat/lon rectangle."
+    },
+    {
+      "id": "COMMONS",
+      "priority": "P1",
+      "name": "Wikimedia Commons",
+      "entry": "https://commons.wikimedia.org/w/api.php",
+      "mode": "API_FILE_PAGE",
+      "access_status": "IMAGEINFO_API_DOCUMENTED_FOUR_FILE_PAGES_KNOWN",
+      "roles": [
+        "licensed_media",
+        "author",
+        "license",
+        "dated_image"
+      ],
+      "target_rubrics": [
+        "modern_media",
+        "historical_media",
+        "sources"
+      ],
+      "automation": "ALLOWED_PER_FILE_WITH_CACHE",
+      "rights": "PER_ASSET_CC_AND_ATTRIBUTION",
+      "join": "depicted_place_needs_viewpoint_proof",
+      "notes": "query imageinfo url|extmetadata per exact File: title; extmetadata may be HTML; uploader != author."
+    },
+    {
+      "id": "WIKIDATA",
+      "priority": "P1",
+      "name": "Wikidata",
+      "entry": "https://www.wikidata.org/wiki/Special:EntityData/Q2367357.json",
+      "mode": "ENTITY_JSON_BY_VERIFIED_QID",
+      "access_status": "ENTITY_SCHEMA_DOCUMENTED_QID_FOR_NEW_HOLLAND_NOT_FOUR_PILOT_OBJECTS",
+      "roles": [
+        "external_ids",
+        "labels",
+        "architect",
+        "date_candidate"
+      ],
+      "target_rubrics": [
+        "identity",
+        "architecture",
+        "chronology",
+        "sources"
+      ],
+      "automation": "CONDITIONAL_VERIFIED_QID_ONLY",
+      "rights": "CC0_METADATA_ASSERTIONS_REQUIRE_PROVENANCE",
+      "join": "qid_validated_against_type_and_address",
+      "notes": "No blind fuzzy join or take unrelated New Holland QID as current pilot; SPARQL endpoint limits."
+    },
+    {
+      "id": "OSM",
+      "priority": "P2",
+      "name": "OpenStreetMap",
+      "entry": "https://www.openstreetmap.org/",
+      "mode": "TARGETED_FEATURE_LOOKUP_OR_LICENSED_EXTRACT",
+      "access_status": "PILOT_WAY_RELATION_IDS_NOT_ESTABLISHED",
+      "roles": [
+        "geometry_candidate",
+        "point",
+        "building"
+      ],
+      "target_rubrics": [
+        "identity",
+        "architecture",
+        "nearby"
+      ],
+      "automation": "TARGETED_WITH_CACHING_NOT_BULK_SEARCH",
+      "rights": "ODBL_ATTRIBUTION_AND_DERIVATIVE_OBLIGATIONS",
+      "join": "building_and_courtyard_geometry_distinct",
+      "notes": "Do NOT build bulk geocoder atop public Nominatim; respect 1req/s and policy; avoid geometry guesses."
+    },
+    {
+      "id": "SPB_ARCHIVES",
+      "priority": "P2",
+      "name": "Архивы Санкт-Петербурга",
+      "entry": "https://spbarchives.ru/",
+      "mode": "CATALOGUE_MANUAL_REFERENCE",
+      "access_status": "ARCHIVAL_REFERENCES_OBTAINED_NO_MASS_FACSIMILE_ACCESS",
+      "roles": [
+        "construction",
+        "resident",
+        "owner",
+        "archive_plan",
+        "events"
+      ],
+      "target_rubrics": [
+        "chronology",
+        "people",
+        "events",
+        "uses",
+        "historical_media",
+        "sources"
+      ],
+      "automation": "CATALOG_LINK_OR_HUMAN_ASSISTED_ONLY",
+      "rights": "DOCUMENT_REPRODUCTION_RIGHTS_UNVERIFIED",
+      "join": "historical_address_corpus_and_dates",
+      "notes": "Preserve fund/opis/delo/list locator; catalogue metadata != inspected primary document."
+    },
+    {
+      "id": "RNB",
+      "priority": "P2",
+      "name": "Российская национальная библиотека — адресные справочники",
+      "entry": "https://nlr.ru/",
+      "mode": "HUMAN_ASSISTED_SCAN_OR_CATALOGUE",
+      "access_status": "REPORT_REFERENCES_ONLY_ORIGINAL_SCAN_UNSEEN",
+      "roles": [
+        "historical_owners",
+        "residents",
+        "address_period"
+      ],
+      "target_rubrics": [
+        "people",
+        "chronology",
+        "sources"
+      ],
+      "automation": "HUMAN_ONLY_UNTIL_RIGHTS_AND_ACCESS_CLEAR",
+      "rights": "SCAN_RIGHTS_UNVERIFIED",
+      "join": "directory_year_is_attestation_not_interval",
+      "notes": "B's 1913 directory: publication year not full period of ownership."
+    },
+    {
+      "id": "SPB_MUSEUM",
+      "priority": "P2",
+      "name": "Государственный музей истории Санкт-Петербурга",
+      "entry": "https://spbmuseum.ru/",
+      "mode": "EDITORIAL_PAGE_LINK",
+      "access_status": "SPECIFIC_KIROV_PAGE_REPORTED",
+      "roles": [
+        "residents",
+        "museum_history"
+      ],
+      "target_rubrics": [
+        "people",
+        "events",
+        "sources"
+      ],
+      "automation": "LINK_AND_QUOTED_FACTS_WITH_REVIEW",
+      "rights": "NO_BULK_MEDIA_REUSE",
+      "join": "apartment_and_period_must_match",
+      "notes": "A museum account is secondary evidence; do not invent exact arrival/departure."
+    },
+    {
+      "id": "PASTVU",
+      "priority": "P3",
+      "name": "PastVu",
+      "entry": "https://pastvu.com/",
+      "mode": "METADATA_AND_EXTERNAL_LINK",
+      "access_status": "REPORTED_ITEMS_244685_1428318_2662942_IMAGE_RIGHTS_UNKNOWN",
+      "roles": [
+        "historic_photo",
+        "old_streetscape"
+      ],
+      "target_rubrics": [
+        "historical_media",
+        "sources"
+      ],
+      "automation": "LINK_ONLY_BEFORE_TOS_REVIEW",
+      "rights": "REPOST_PERMISSION_UNKNOWN",
+      "join": "historic_address_and_camera_viewpoint",
+      "notes": "Photo API reports not a validated full ingest license; link the source until per-item rights known."
+    },
+    {
+      "id": "CITYWALLS",
+      "priority": "P3",
+      "name": "Citywalls и краеведческие статьи",
+      "entry": "https://www.citywalls.ru/",
+      "mode": "LINK_AND_EDITORIAL_EXTRACT",
+      "access_status": "RESEARCH_LEADS_ONLY",
+      "roles": [
+        "architect",
+        "building_history",
+        "alternative_heritage"
+      ],
+      "target_rubrics": [
+        "chronology",
+        "architecture",
+        "details",
+        "sources"
+      ],
+      "automation": "NO_UNAPPROVED_BULK_SCRAPE",
+      "rights": "LINKS_AND_SHORT_PARAPHRASES_ONLY",
+      "join": "address_and_property_type",
+      "notes": "Secondary claims cross-check official heritage and source primary evidence."
+    },
+    {
+      "id": "PETERSBURG24",
+      "priority": "P3",
+      "name": "Петербург24",
+      "entry": "https://petersburg24.ru/",
+      "mode": "LINK_AND_EDITORIAL_EXTRACT",
+      "access_status": "FOUR_PLACE_CONTEXT_REPORTED",
+      "roles": [
+        "courtyard_name",
+        "city_story",
+        "walking_context"
+      ],
+      "target_rubrics": [
+        "intro",
+        "details",
+        "legends",
+        "sources"
+      ],
+      "automation": "NO_UNAPPROVED_BULK_SCRAPE",
+      "rights": "LINKS_AND_SHORT_PARAPHRASES_ONLY",
+      "join": "specific_courtyard_not_entire_address",
+      "notes": "Folk legends must be labeled LEGEND."
+    },
+    {
+      "id": "SPB_OPEN_DATA_69",
+      "priority": "HOLD",
+      "name": "Исторический городской набор 69",
+      "entry": "https://data.gov.spb.ru/",
+      "mode": "UNVALIDATED_LEGACY_API",
+      "access_status": "CURRENT_2026_DATASET_AND_LICENSE_UNVERIFIED",
+      "roles": [
+        "housing_technical_passports"
+      ],
+      "target_rubrics": [
+        "architecture",
+        "identity"
+      ],
+      "automation": "DO_NOT_SCHEDULE",
+      "rights": "TO_VERIFY",
+      "join": "unknown",
+      "notes": "No working live endpoint, row schema or license demonstrated."
+    },
+    {
+      "id": "GBIF",
+      "priority": "HOLD",
+      "name": "GBIF ecological observations",
+      "entry": "https://www.gbif.org/",
+      "mode": "OCCURRENCE_API_DOCUMENTED_NO_LOCAL_GBIFID",
+      "access_status": "ZERO_VERIFIED_SPB_OCCURRENCES",
+      "roles": [
+        "nature_urban_ecology_future"
+      ],
+      "target_rubrics": [],
+      "automation": "DO_NOT_SCHEDULE",
+      "rights": "DATASET_LICENSE_PER_RECORD",
+      "join": "none",
+      "notes": "Outside four-place architecture and no individual confirmed occurrence to plot."
+    }
+  ]
+}
