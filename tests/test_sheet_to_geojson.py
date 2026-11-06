@@ -127,4 +127,53 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(result["features"][0]["properties"]["photo_license_url"],
                          "https://creativecommons.org/licenses/by-sa/3.0/")
 
+
+    def test_replacement_photo_cannot_inherit_old_author(self):
+        import copy
+        baseline = copy.deepcopy(BASE)
+        baseline["features"][0]["properties"].update({
+            "photo_author": "Photographer of an unrelated old image",
+            "photo_source_url": "https://example.org/old-image",
+            "photo_license": "CC BY-SA 4.0",
+        })
+        with self.assertRaisesRegex(ValueError, "incomplete photo attribution"):
+            export(self._media_sample(GOOD, author=""), baseline)
+
+    def test_unrecognized_photo_license_rejected(self):
+        with self.assertRaisesRegex(ValueError, "unsupported photo license"):
+            export(self._media_sample(GOOD, license_name="License unknown"), BASE)
+
+    def test_new_historical_image_requires_separate_review(self):
+        import csv
+        src = self._media_sample(GOOD)
+        values = list(csv.reader(src))
+        values[0] += ["Историческое фото — URL", "Историческое фото — лицензия"]
+        values[1] += ["https://commons.wikimedia.org/wiki/Special:FilePath/historic.jpg",
+                      "Public domain (unverified)"]
+        output = io.StringIO()
+        csv.writer(output).writerows(values)
+        output.seek(0)
+        with self.assertRaisesRegex(ValueError, "historical photo requires separate rights review"):
+            export(output, BASE)
+
+    def test_already_published_historical_image_is_not_rewritten(self):
+        import copy
+        import csv
+        baseline = copy.deepcopy(BASE)
+        old_url = "https://commons.wikimedia.org/wiki/Special:FilePath/old-historic.jpg"
+        baseline["features"][0]["properties"].update({
+            "historic_photo_url": old_url,
+            "historic_photo_license": "legacy-rights-label",
+        })
+        src = self._media_sample(GOOD)
+        values = list(csv.reader(src))
+        values[0] += ["Историческое фото — URL", "Историческое фото — лицензия"]
+        values[1] += [old_url, "unverified different text"]
+        output = io.StringIO()
+        csv.writer(output).writerows(values)
+        output.seek(0)
+        props = export(output, baseline)["features"][0]["properties"]
+        self.assertEqual(props["historic_photo_url"], old_url)
+        self.assertEqual(props["historic_photo_license"], "legacy-rights-label")
+
 if __name__=="__main__": unittest.main()
