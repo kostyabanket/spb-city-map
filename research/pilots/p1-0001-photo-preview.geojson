@@ -1,0 +1,245 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.293621,
+          59.954845
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0001",
+        "name": "Двор-восьмиугольник",
+        "category": "Дворы",
+        "description": "В бывшем доходном доме Н. С. Занина на Малом проспекте находится восьмиугольный двор. Источники относят постройку к 1910-м годам; датировка требует сверки. Рассказ о связи восьмиугольника с Мальтийским орденом — городская легенда, а не установленный факт.",
+        "look": "Если доступ законно открыт, рассмотрите восьмигранную форму двора и чугунное дерево с птицей. Не проходите через закрытые двери.",
+        "access": "UNKNOWN",
+        "photo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9C%D0%B0%D0%BB%D1%8B%D0%B9_%D0%9F%D0%A1_1%D0%91_01.jpg?width=960",
+        "address": "Малый проспект Петроградской стороны, 1Б",
+        "why": "Необычная геометрия двора: восемь сторон образуют выразительную рамку для неба.",
+        "details": [
+          {
+            "text": "Восьмиугольная конфигурация внутреннего двора.",
+            "status": "FACT"
+          },
+          {
+            "text": "Связь с Мальтийским орденом.",
+            "status": "LEGEND"
+          }
+        ],
+        "access_note": "Жилой двор; возможность входа не подтверждена. Не пытайтесь обходить закрытый вход.",
+        "photo_status": "LICENSE_VERIFIED",
+        "external_links": [
+          {
+            "label": "Описание и фото · Петербург24",
+            "url": "https://petersburg24.ru/place/dvor-vosmiugolnik",
+            "type": "article"
+          },
+          {
+            "label": "Другой краеведческий обзор",
+            "url": "https://experience.tripster.ru/journal/articles/12-samyh-interesnyh-dvorov-sankt-peterburga/",
+            "type": "article"
+          }
+        ],
+        "sources": [
+          {
+            "title": "Petersburg24 — Двор-восьмиугольник",
+            "url": "https://petersburg24.ru/place/dvor-vosmiugolnik"
+          }
+        ],
+        "verification_status": "PARTIAL",
+        "updated_at": "2026-11-05",
+        "photo_author": "Екатерина Борисова",
+        "photo_license": "CC BY-SA 4.0",
+        "photo_license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "photo_source_url": "https://commons.wikimedia.org/wiki/File:Малый_ПС_1Б_01.jpg"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.313014,
+          59.967286
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0002",
+        "name": "Двор-Бэтмен",
+        "category": "Дворы",
+        "description": "Двор-колодец доходного дома Р. А. Дидерихса известен под прозвищем «Бэтмен» благодаря необычной форме светового проёма. Название неофициальное.",
+        "look": "Рассмотрите очертания неба между стенами — только если во двор разрешён свободный вход.",
+        "access": "UNKNOWN",
+        "photo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%94%D0%B2%D0%BE%D1%80-%D0%BA%D0%BE%D0%BB%D0%BE%D0%B4%D0%B5%D1%86%20%22%D0%91%D1%8D%D1%82%D0%BC%D0%B5%D0%BD%22.jpg?width=720",
+        "address": "Большой проспект Петроградской стороны, 104",
+        "why": "Если посмотреть вертикально вверх, контур двора напоминает узнаваемый силуэт летучей мыши.",
+        "details": [
+          {
+            "text": "Прозвище «Бэтмен» связано с силуэтом просвета.",
+            "status": "INTERPRETATION"
+          }
+        ],
+        "access_note": "Жилой двор. Доступ внутрь не проверен; не пытайтесь пройти через закрытую дверь.",
+        "photo_author": "Бегущий из города",
+        "photo_license": "CC BY-SA 4.0",
+        "photo_license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "photo_source_url": "https://commons.wikimedia.org/wiki/File:Двор-колодец_%22Бэтмен%22.jpg",
+        "photo_status": "LICENSE_VERIFIED",
+        "external_links": [
+          {
+            "label": "Фотография и лицензия · Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/wiki/File:Двор-колодец_%22Бэтмен%22.jpg",
+            "type": "photo"
+          },
+          {
+            "label": "Другие фото дворов-колодцев",
+            "url": "https://commons.wikimedia.org/wiki/Category:Well-shaped_courtyards_in_Saint_Petersburg",
+            "type": "collection"
+          }
+        ],
+        "sources": [
+          {
+            "title": "Wikimedia Commons — фото с адресом и координатами",
+            "url": "https://commons.wikimedia.org/wiki/File:Двор-колодец_%22Бэтмен%22.jpg"
+          }
+        ],
+        "verification_status": "PARTIAL",
+        "location_precision": "SOURCE_PHOTO_COORDINATES_VERIFY_MAP",
+        "updated_at": "2026-11-05"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.31283,
+          59.96242
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0003",
+        "name": "Дом Трёх Бенуа",
+        "category": "Архитектура",
+        "description": "Комплекс Первого российского страхового общества построен в 1911–1914 годах по проекту представителей семьи Бенуа при участии А. И. Гунста. Снаружи стоит рассмотреть композицию фасадов и архитектурные детали.",
+        "look": "Рассмотрите колоннады, рельефы, маскароны и протяжённый фасад со стороны общедоступного тротуара.",
+        "access": "UNKNOWN",
+        "photo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/BenoisHouse.jpg?width=960",
+        "address": "Каменноостровский проспект, 26–28",
+        "why": "Огромный исторический жилой ансамбль, занимающий целый квартал и соединяющий сразу три улицы.",
+        "details": [
+          {
+            "text": "Фасады выходят на Каменноостровский проспект, Кронверкскую и Большую Пушкарскую улицы.",
+            "status": "FACT"
+          }
+        ],
+        "access_note": "Вид с общедоступного тротуара; доступ во внутренние дворы и парадные не подтверждён.",
+        "photo_author": "Potekhin",
+        "photo_license": "CC BY-SA 3.0",
+        "photo_license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "photo_source_url": "https://commons.wikimedia.org/wiki/File:BenoisHouse.jpg",
+        "photo_status": "LICENSE_VERIFIED",
+        "historic_photo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Benois%20House%20SPb%201915.jpg?width=960",
+        "historic_photo_caption": "Парадный двор, около 1915 года",
+        "historic_photo_author": "Автор неизвестен; сканированная репродукция",
+        "historic_photo_license": "Public domain (согласно странице файла)",
+        "historic_photo_license_url": "https://commons.wikimedia.org/wiki/File:Benois_House_SPb_1915.jpg",
+        "historic_photo_source_url": "https://commons.wikimedia.org/wiki/File:Benois_House_SPb_1915.jpg",
+        "external_links": [
+          {
+            "label": "История и архитекторы · Петербург Центр",
+            "url": "https://peterburg.center/maps/dom-benua-v-peterburge.html",
+            "type": "article"
+          },
+          {
+            "label": "Современные фотографии · Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/wiki/Category:Three_Benois_House",
+            "type": "photos"
+          },
+          {
+            "label": "Исторический снимок 1915 года",
+            "url": "https://commons.wikimedia.org/wiki/File:Benois_House_SPb_1915.jpg",
+            "type": "archive"
+          }
+        ],
+        "sources": [
+          {
+            "title": "Петербург Центр — Дом Бенуа",
+            "url": "https://peterburg.center/maps/dom-benua-v-peterburge.html"
+          },
+          {
+            "title": "Wikimedia Commons — Three Benois House",
+            "url": "https://commons.wikimedia.org/wiki/Category:Three_Benois_House"
+          }
+        ],
+        "verification_status": "PARTIAL",
+        "location_precision": "APPROXIMATE_BUILDING_LOCATION",
+        "updated_at": "2026-11-05"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.32047,
+          59.95715
+        ]
+      },
+      "properties": {
+        "id": "SPB-PET-0011",
+        "legacy_id": 11,
+        "name": "Дом Лидваля",
+        "category": "Архитектура",
+        "description": "Доходный дом для Иды Амалии Лидваль возведён в 1899–1904 годах по проекту её сына, архитектора Фёдора Лидваля. Для впечатления важны не только фасады, но и каменная ограда и декоративные элементы ансамбля.",
+        "look": "Со стороны тротуара рассмотрите фактуру камня, входную группу, решётку и асимметрию ансамбля.",
+        "access": "UNKNOWN",
+        "location_precision": "APPROXIMATE_NEEDS_VERIFICATION",
+        "photo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/LidvalHouse.jpg?width=960",
+        "photo_author": "Potekhin",
+        "photo_license": "CC BY-SA 3.0",
+        "photo_source_url": "https://commons.wikimedia.org/wiki/File:LidvalHouse.jpg",
+        "source_url": "https://walkspb.ru/istoriya-peterburga/zd/kamennoostr1",
+        "address": "Каменноостровский проспект, 1–3",
+        "why": "Один из самых известных доходных домов петербургского северного модерна — первое крупное произведение Фёдора Лидваля. Обратите внимание на архитектурные детали фасада и оформление входов.",
+        "details": [
+          {
+            "text": "Постройка по проекту Фёдора Лидваля, 1899–1904.",
+            "status": "FACT"
+          }
+        ],
+        "access_note": "Фасады видны с общедоступного тротуара; дворы и внутренние помещения без подтверждённого доступа.",
+        "photo_license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "photo_status": "LICENSE_VERIFIED",
+        "external_links": [
+          {
+            "label": "История · WalkSPB",
+            "url": "https://walkspb.ru/istoriya-peterburga/zd/kamennoostr1",
+            "type": "article"
+          },
+          {
+            "label": "Фотография и лицензия · Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/wiki/File:LidvalHouse.jpg",
+            "type": "photo"
+          }
+        ],
+        "sources": [
+          {
+            "title": "Wikimedia Commons — LidvalHouse.jpg",
+            "url": "https://commons.wikimedia.org/wiki/File:LidvalHouse.jpg"
+          },
+          {
+            "title": "WalkSPB — Каменноостровский проспект, 1–3",
+            "url": "https://walkspb.ru/istoriya-peterburga/zd/kamennoostr1"
+          }
+        ],
+        "verification_status": "PARTIAL",
+        "updated_at": "2026-11-05"
+      }
+    }
+  ]
+}

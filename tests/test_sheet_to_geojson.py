@@ -62,4 +62,118 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"Unreviewed new place"):
             export(sample(row),BASE)
 
+
+    def _media_sample(self, row, author="Екатерина Борисова",
+                      license_name="CC BY-SA 4.0",
+                      source="https://commons.wikimedia.org/wiki/File:Малый_ПС_1Б_01.jpg"):
+        # Use the same test header contract plus the additional photo columns.
+        import csv
+        fields = HEADERS + ["Фото — автор", "Фото — лицензия", "Фото — источник"]
+        values = row.copy()
+        values[HEADERS.index("Основное фото — URL")] = (
+            "https://commons.wikimedia.org/wiki/Special:FilePath/Малый_ПС_1Б_01.jpg"
+        )
+        values[HEADERS.index("Фото — статус лицензии")] = "LICENSE_VERIFIED"
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(fields)
+        writer.writerow(values + [author, license_name, source])
+        output.seek(0)
+        return output
+
+    def test_approved_cc_photo_updates_status_and_license_url(self):
+        import copy
+        baseline = copy.deepcopy(BASE)
+        baseline["features"][0]["properties"]["photo_status"] = "NO_VERIFIED_LICENSED_PHOTO"
+        result = export(self._media_sample(GOOD), baseline)
+        props = result["features"][0]["properties"]
+        self.assertEqual(props["photo_status"], "LICENSE_VERIFIED")
+        self.assertEqual(props["photo_author"], "Екатерина Борисова")
+        self.assertEqual(props["photo_license"], "CC BY-SA 4.0")
+        self.assertEqual(props["photo_license_url"],
+                         "https://creativecommons.org/licenses/by-sa/4.0/")
+        self.assertEqual(props["details"], baseline["features"][0]["properties"]["details"])
+
+    def test_review_does_not_update_photo_status_or_photo(self):
+        import copy
+        baseline = copy.deepcopy(BASE)
+        baseline["features"][0]["properties"]["photo_status"] = "NO_VERIFIED_LICENSED_PHOTO"
+        row = GOOD.copy()
+        row[HEADERS.index("Статус редакции")] = "REVIEW"
+        self.assertEqual(export(self._media_sample(row), baseline), baseline)
+
+    def test_missing_photo_author_rejected(self):
+        with self.assertRaisesRegex(ValueError, "incomplete photo attribution"):
+            export(self._media_sample(GOOD, author=""), BASE)
+
+    def test_invalid_photo_source_url_rejected(self):
+        with self.assertRaisesRegex(ValueError, "bad photo_source_url"):
+            export(self._media_sample(GOOD, source="http://example.org/photo.jpg"), BASE)
+
+    def test_photo_license_status_is_required(self):
+        import csv
+        content = self._media_sample(GOOD)
+        values = list(csv.reader(content))
+        values[1][HEADERS.index("Фото — статус лицензии")] = "NO_VERIFIED_LICENSED_PHOTO"
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerows(values)
+        output.seek(0)
+        with self.assertRaisesRegex(ValueError, "photo lacks verified license"):
+            export(output, BASE)
+
+    def test_cc_by_sa_3_license_link(self):
+        result = export(self._media_sample(GOOD, license_name="CC BY-SA 3.0"), BASE)
+        self.assertEqual(result["features"][0]["properties"]["photo_license_url"],
+                         "https://creativecommons.org/licenses/by-sa/3.0/")
+
+
+    def test_replacement_photo_cannot_inherit_old_author(self):
+        import copy
+        baseline = copy.deepcopy(BASE)
+        baseline["features"][0]["properties"].update({
+            "photo_author": "Photographer of an unrelated old image",
+            "photo_source_url": "https://example.org/old-image",
+            "photo_license": "CC BY-SA 4.0",
+        })
+        with self.assertRaisesRegex(ValueError, "incomplete photo attribution"):
+            export(self._media_sample(GOOD, author=""), baseline)
+
+    def test_unrecognized_photo_license_rejected(self):
+        with self.assertRaisesRegex(ValueError, "unsupported photo license"):
+            export(self._media_sample(GOOD, license_name="License unknown"), BASE)
+
+    def test_new_historical_image_requires_separate_review(self):
+        import csv
+        src = self._media_sample(GOOD)
+        values = list(csv.reader(src))
+        values[0] += ["Историческое фото — URL", "Историческое фото — лицензия"]
+        values[1] += ["https://commons.wikimedia.org/wiki/Special:FilePath/historic.jpg",
+                      "Public domain (unverified)"]
+        output = io.StringIO()
+        csv.writer(output).writerows(values)
+        output.seek(0)
+        with self.assertRaisesRegex(ValueError, "historical photo requires separate rights review"):
+            export(output, BASE)
+
+    def test_already_published_historical_image_is_not_rewritten(self):
+        import copy
+        import csv
+        baseline = copy.deepcopy(BASE)
+        old_url = "https://commons.wikimedia.org/wiki/Special:FilePath/old-historic.jpg"
+        baseline["features"][0]["properties"].update({
+            "historic_photo_url": old_url,
+            "historic_photo_license": "legacy-rights-label",
+        })
+        src = self._media_sample(GOOD)
+        values = list(csv.reader(src))
+        values[0] += ["Историческое фото — URL", "Историческое фото — лицензия"]
+        values[1] += [old_url, "unverified different text"]
+        output = io.StringIO()
+        csv.writer(output).writerows(values)
+        output.seek(0)
+        props = export(output, baseline)["features"][0]["properties"]
+        self.assertEqual(props["historic_photo_url"], old_url)
+        self.assertEqual(props["historic_photo_license"], "legacy-rights-label")
+
 if __name__=="__main__": unittest.main()
