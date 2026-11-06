@@ -73,6 +73,18 @@ def export(csv_file, existing):
             for header,key in PHOTO.items():
                 value=(row.get(header) or "").strip()
                 if value: props[key]=value
+            # A newly approved licensed image must not retain a stale
+            # NO_VERIFIED_LICENSED_PHOTO flag from the published baseline.
+            props["photo_status"] = photo_status
+            # The current 35-column sheet stores the license label, not its URL.
+            # Attach only a well-known URI for exact supported CC labels.
+            cc_license_urls = {
+                "CC BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/",
+                "CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
+            }
+            license_url = cc_license_urls.get(props.get("photo_license"))
+            if license_url:
+                props["photo_license_url"] = license_url
             for key in ("photo_url","photo_source_url"):
                 if not url_ok(props.get(key,"")): raise ValueError(pid+": bad "+key)
             if not props.get("photo_author") or not props.get("photo_license"):
