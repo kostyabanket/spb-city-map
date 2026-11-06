@@ -1,0 +1,144 @@
+{
+  "mode": "dry_run_example_from_existing_project_data_NO_NEW_WEB_FETCH",
+  "input": {
+    "place_id": "SPB-PET-0002",
+    "address": "Большой проспект Петроградской стороны, 104",
+    "name_hint": "Двор-Бэтмен",
+    "district": "Петроградский район",
+    "object_type": "courtyard"
+  },
+  "identity": {
+    "place_id": "SPB-PET-0002",
+    "canonical_name": "Двор-Бэтмен",
+    "address": "Большой проспект Петроградской стороны, 104",
+    "point": [
+      30.313014,
+      59.967286
+    ],
+    "related_building": "Доходный дом Р. А. Дидерихса",
+    "related_building_relation": "containing_building_candidate",
+    "geographical_district_check": "EXISTING_PROJECT_PLACE_ONLY",
+    "do_not_join": [
+      "ул. Рубинштейна, 40/11",
+      "FIAS e10dcf32-23c4-45e1-a3a3-0006a9e72836"
+    ]
+  },
+  "rubrics": [
+    {
+      "id": "intro",
+      "title": "Чем интересно",
+      "claims": [
+        {
+          "value": "Если посмотреть вертикально вверх, контур двора напоминает узнаваемый силуэт летучей мыши.",
+          "source_id": "SPB_MAP_CURRENT_GEOJSON",
+          "review_status": "PROJECT_CONTENT"
+        }
+      ]
+    },
+    {
+      "id": "chronology",
+      "title": "История по годам",
+      "claims": [
+        {
+          "value": "Двор-колодец доходного дома Р. А. Дидерихса известен под прозвищем «Бэтмен» благодаря необычной форме светового проёма. Название неофициальное.",
+          "source_id": "SPB_MAP_CURRENT_GEOJSON",
+          "review_status": "PROJECT_CONTENT_NOT_PRIMARY_VERIFIED"
+        }
+      ]
+    },
+    {
+      "id": "details",
+      "title": "Двор и детали",
+      "claims": [
+        {
+          "value": "Рассмотрите очертания неба между стенами — только если во двор разрешён свободный вход.",
+          "source_id": "SPB_MAP_CURRENT_GEOJSON",
+          "review_status": "PROJECT_CONTENT"
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "title": "Люди и адреса",
+      "claims": [
+        {
+          "person_name": "Роберт Андреевич Дидерихс",
+          "relation_type": "OWNED_PROPERTY_AT",
+          "source_id": "P2-02",
+          "source_url": "https://prawdom.ru/dom.php?hm=Bolshoj+P.S.+spb_104",
+          "year_attested": "1913",
+          "date_precision": "DIRECTORY_EDITION_YEAR",
+          "review_status": "REVIEW",
+          "notes": "Directory ownership transcribed in secondary source; year of edition is not exact ownership interval; no claim of residence"
+        }
+      ]
+    },
+    {
+      "id": "modern_media",
+      "title": "Фото сегодня",
+      "assets": [
+        {
+          "file_page": "https://commons.wikimedia.org/wiki/File:Двор-колодец_%22Бэтмен%22.jpg",
+          "author": "Бегущий из города",
+          "photo_date": "2020-09-18",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "viewpoint_status": "SOURCE_IDENTIFIES_DIDERICHS_COURTYARD",
+          "rights_status": "ATTRIBUTION_REQUIRED",
+          "review_status": "REVIEW"
+        }
+      ]
+    },
+    {
+      "id": "access",
+      "title": "Как увидеть и попасть",
+      "claims": [
+        {
+          "value": "Жилой двор. Доступ внутрь не проверен; не пытайтесь пройти через закрытую дверь.",
+          "source_id": "SPB_MAP_CURRENT_GEOJSON",
+          "review_status": "CURRENT_PUBLIC_WARNING"
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "title": "Источники и проверка",
+      "links": [
+        {
+          "title": "Wikimedia Commons — фото с адресом и координатами",
+          "url": "https://commons.wikimedia.org/wiki/File:Двор-колодец_%22Бэтмен%22.jpg"
+        },
+        {
+          "title": "Фотография и лицензия · Wikimedia Commons",
+          "url": "https://commons.wikimedia.org/wiki/File:Двор-колодец_%22Бэтмен%22.jpg"
+        },
+        {
+          "title": "Другие фото дворов-колодцев",
+          "url": "https://commons.wikimedia.org/wiki/Category:Well-shaped_courtyards_in_Saint_Petersburg"
+        }
+      ]
+    }
+  ],
+  "empty_rubrics_hidden": [
+    "architecture",
+    "events",
+    "uses",
+    "historical_media",
+    "legends",
+    "culture",
+    "nearby"
+  ],
+  "quality": {
+    "is_newly_scraped": false,
+    "source_records_directly_fetched": 0,
+    "claims_review_required": true,
+    "unknown": [
+      "direct_OSM_courtyard_polygon",
+      "official_GAR_GUID",
+      "camera_point"
+    ],
+    "publication": "BLOCKED_AUTO",
+    "legacy_sheet_modified": false,
+    "production_geojson_modified": false
+  }
+}
