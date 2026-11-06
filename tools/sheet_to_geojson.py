@@ -68,34 +68,34 @@ def export(csv_file, existing):
             value = (row.get(header) or "").strip()
             if value: props[key] = value
         photo_status = (row.get("Фото — статус лицензии") or "").strip()
-        if (row.get("Основное фото — URL") or "").strip():
-            if photo_status != "LICENSE_VERIFIED": raise ValueError(pid+": photo lacks verified license")
-            for header,key in PHOTO.items():
-                value=(row.get(header) or "").strip()
-                if value: props[key]=value
-            # A newly approved licensed image must not retain a stale
-            # NO_VERIFIED_LICENSED_PHOTO flag from the published baseline.
-            props["photo_status"] = photo_status
-            # The current 35-column sheet stores the license label, not its URL.
-            # Attach only a well-known URI for exact supported CC labels.
+        photo_values = {key: (row.get(header) or "").strip()
+                        for header, key in PHOTO.items()}
+        if photo_values["photo_url"]:
+            if photo_status != "LICENSE_VERIFIED":
+                raise ValueError(pid + ": photo lacks verified license")
+            # Use fields from the new row, not the previous photograph's author.
+            if any(not photo_values[key] for key in
+                   ("photo_author", "photo_license", "photo_source_url")):
+                raise ValueError(pid + ": incomplete photo attribution")
             cc_license_urls = {
                 "CC BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/",
                 "CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
             }
-            license_url = cc_license_urls.get(props.get("photo_license"))
-            if license_url:
-                props["photo_license_url"] = license_url
-            for key in ("photo_url","photo_source_url"):
-                if not url_ok(props.get(key,"")): raise ValueError(pid+": bad "+key)
-            if not props.get("photo_author") or not props.get("photo_license"):
-                raise ValueError(pid+": incomplete photo attribution")
-        historic=(row.get("Историческое фото — URL") or "").strip()
+            license_url = cc_license_urls.get(photo_values["photo_license"])
+            if not license_url:
+                raise ValueError(pid + ": unsupported photo license; rights review required")
+            for key in ("photo_url", "photo_source_url"):
+                if not url_ok(photo_values[key]):
+                    raise ValueError(pid + ": bad " + key)
+            props.update(photo_values)
+            props["photo_status"] = photo_status
+            props["photo_license_url"] = license_url
+        historic = (row.get("Историческое фото — URL") or "").strip()
         if historic:
-            for header,key in HISTORIC.items():
-                value=(row.get(header) or "").strip()
-                if value: props[key]=value
-            if not url_ok(historic) or not props.get("historic_photo_license"):
-                raise ValueError(pid+": historical photo has missing license or invalid URL")
+            if historic != baseline[pid]["properties"].get("historic_photo_url", ""):
+                raise ValueError(pid + ": new historical photo requires separate rights review")
+            # Existing historical image metadata stays unchanged; a mere
+            # public-domain label is not authorization for a new image.
         props["id"]=pid
         updated.append(f)
     if set(baseline) != {f["properties"]["id"] for f in updated}:
