@@ -24,7 +24,15 @@ function renderMarkers(){for(const m of state.marks)m.remove();state.marks=[];sh
 function renderAll(){renderSearch();renderMarkers()}
 function personMarkup(x){const type=({RESIDED_AT:"Проживание",OWNED_PROPERTY_AT:"Владение",ACQUIRED_PARCEL:"Приобретение участка"})[x.relation_type]||"Историческая связь";
 let date=x.valid_from?("с "+esc(x.valid_from)):"начало не установлено";if(x.valid_to)date+=" · до "+esc(x.valid_to);
-if(x.date_precision==="DEPARTURE_YEAR_ONLY")date="выбыл в "+esc(x.valid_to)+" году · дата начала неизвестна";
+switch(x.date_precision){
+  case "DEPARTURE_YEAR_ONLY":date="Выбыл в "+esc(x.valid_to)+" году · начало неизвестно";break;
+  case "DIRECTORY_EDITION_YEAR":date="Упомянут в справочнике "+esc(x.valid_to)+" года (не срок владения)";break;
+  case "YEAR_CONTEXT_ONLY":date="Дата "+esc(x.valid_to)+" относится к контексту здания, не к периоду владения";break;
+  case "OBSERVED_1934_ONLY":date="Зафиксирован в материалах за 1934 год";break;
+  case "DAY_ACQUISITION_ONLY":date="Приобретение участка: "+esc(x.valid_from);break;
+  case "UPPER_BOUND_ONLY":date="Указано проживание до "+esc(x.valid_to)+" года; начало неизвестно";break;
+  case "YEAR_RANGE_COMPOSITE_SOURCES":date=esc(x.valid_from)+"–"+esc(x.valid_to)+" (разные источники, период требует сверки)";break;
+}
 let url=safeUrl(x.source_url);return '<div class="person"><b>'+esc(x.person_name)+'</b><small>'+esc(type)+' · '+esc(x.historical_address)+(x.apartment?" · кв. "+esc(x.apartment):"")+'</small><small>'+date+'</small><small>'+esc(x.reliability_note||"")+'</small>'+(url?'<small><a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Источник ↗</a></small>':"")+'</div>'}
 function linked(label,url){let target=safeUrl(url);return target?'<a href="'+esc(target)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>':""}
 function photoInfo(p){let url=safeUrl(p.photo_url),src=safeUrl(p.photo_source_url),license=safeUrl(p.photo_license_url);return (url?'<img class="figure-thumb" loading="lazy" src="'+esc(url)+'" alt="Фотография: '+esc(p.name)+'">':"")+
